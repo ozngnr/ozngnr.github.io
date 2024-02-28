@@ -79,16 +79,13 @@ const xWidget = ({ COMPANY_ID }) => {
     }
     const newWidget = createWidget(widget)
     document.body.insertAdjacentHTML('beforeend', newWidget)
-    setTimeout(function () {
-      document.getElementById(widget.id).classList.add('show')
-    }, 500)
-  }
-
-  const closeWidget = () => {
     const closeButton = document.querySelector('.x-widget-btn.close-btn')
     closeButton.addEventListener('click', () =>
       xWidget.classList.remove('show')
     )
+    setTimeout(function () {
+      document.getElementById(widget.id).classList.add('show')
+    }, 500)
   }
   // Function to handle real-time updates
   const handleRealtimeUpdates = async (payload) => {
@@ -96,8 +93,9 @@ const xWidget = ({ COMPANY_ID }) => {
       const { activeWidgetId } = payload.new
 
       if (activeWidgetId) {
-        const { data: activeWidget, error } = await getWidgetById(
-          payload.new.activeWidgetId
+        const { data: activeWidget, error } = await getDataByIdandTable(
+          activeWidgetId,
+          'widgets'
         )
         if (error) {
           console.error('Error updating active widget', error.message)
